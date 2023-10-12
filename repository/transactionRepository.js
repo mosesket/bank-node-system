@@ -3,7 +3,7 @@ const Transaction = require('../models/transaction');
 async function saveTransaction(transactionData) {
 }
 
-async function getTransactionsByUser(userId) {
+async function getTransactionsByUserId(userId) {
   try {
     return Transaction.find({ $or: [{ fromAccount: userId }, { toAccount: userId }] })
       .populate('fromAccount')
@@ -14,10 +14,6 @@ async function getTransactionsByUser(userId) {
 }
 
 module.exports = {
-  getTransactionsByUserId,
-};
-
-module.exports = {
   saveTransaction,
-  getTransactionsByUserId
+  getTransactionsByUserId,
 };

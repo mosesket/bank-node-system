@@ -1,38 +1,28 @@
 const jwt = require("jsonwebtoken");
-// const dotenv = require("dotenv");
-// dotenv.config();
 
 function generateAccessToken(user) {
-  return jwt.sign({ id: user.id }, process.env.JWT_SECRETKey, {
+  return jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_LIFETIME,
   });
 }
 
-const verifyToken = (token) => {
-  try {
-    const decodedToken = jwt.verify(token, "secret");
-
-    return decodedToken;
-  } catch (error) {
-    return null;
-  }
-};
-
 function authenticateToken(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+  const token = req.headers["authorization"];
 
-  if (token == null) return res.sendStatus(401);
+  if (!token) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
 
-  jwt.verify(token, process.env.JWT_SECRETKey, (err, user) => {
-    if (err) res.status(403).send("A token is required for authentication");
-    req.user = user;
+  try {
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decodedToken;
     next();
-  });
+  } catch (error) {
+    return res.status(401).json({ error: "Invalid token" });
+  }
 }
 
 module.exports = {
-  verifyToken,
   authenticateToken,
   generateAccessToken,
 };

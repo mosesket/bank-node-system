@@ -8,6 +8,10 @@ async function createAccount(accountData) {
   }
 }
 
+async function getAccountsByUserId(userId) {
+  return Account.find({ owner: userId });
+}
+
 async function updateAccount(accountId, updatedData) {
   try {
     return await Account.findByIdAndUpdate(accountId, updatedData, {
@@ -18,15 +22,16 @@ async function updateAccount(accountId, updatedData) {
   }
 }
 
-async function findAccountById(accountId) {
+async function findAccountById(accountNumber) {
   try {
-    return await Account.findById(accountId);
+    return await Account.findOne({ accountNumber });
   } catch (error) {
     throw error;
   }
 }
 
 module.exports = {
+  getAccountsByUserId,
   createAccount,
   updateAccount,
   findAccountById,

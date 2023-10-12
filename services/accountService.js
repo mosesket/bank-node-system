@@ -1,10 +1,22 @@
-const accountRepository = require("../repository/accountRepository");
 const userRepository = require("../repository/userRepository");
+const accountRepository = require("../repository/accountRepository");
 const transactionRepository = require("../repository/transactionRepository");
 
 async function createAccount(accountData) {
   try {
     return await accountRepository.createAccount(accountData);
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getAccountBuUserId(userId) {
+  try {
+    const user = await userRepository.getUserById(userId);
+    const accounts = await accountRepository.getAccountsByUserId(userId);
+    const transactions = await transactionRepository.getTransactionsByUserId(userId);
+
+    return { user, accounts, transactions };
   } catch (error) {
     throw error;
   }
@@ -17,9 +29,7 @@ async function getAllUsers() {
     const usersData = await Promise.all(
       users.map(async (user) => {
         const accounts = await accountRepository.getAccountsByUserId(user._id);
-        const transactions =
-          await transactionRepository.getTransactionsByUserId(user._id);
-        return { user, accounts, transactions };
+        return { user, accounts };
       })
     );
 
@@ -33,8 +43,8 @@ async function updateAccount(accountId, updatedData) {
   return await accountRepository.updateAccount(accountId, updatedData);
 }
 
-async function getAccountBalance(accountId) {
-  const account = await accountRepository.findAccountById(accountId);
+async function getUserBalance(userId) {
+  const account = await accountRepository.findAccountById(userId);
   if (!account) {
     throw new Error("Account not found");
   }
@@ -42,8 +52,9 @@ async function getAccountBalance(accountId) {
 }
 
 module.exports = {
+  getAccountBuUserId,
   getAllUsers,
   createAccount,
   updateAccount,
-  getAccountBalance,
+  getUserBalance,
 };

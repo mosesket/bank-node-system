@@ -10,35 +10,24 @@ async function getAllUsers(req, res) {
   }
 }
 
-async function createAccount(req, res) {
+async function getUserAccount(req, res) {
   try {
-    // const accountData = req.body;
-    // const createdAccount = await accountService.createAccount(accountData);
-
-    const demoAccountData = {
-      accountNumber: '1234567894',
-      accountType: 'Savings',
-      balance: 1000.0,
-      name: 'name',
-      email: 'abcd@abcd.com',
-      phone: '0980738098',
-      password: 'password',
-    };
-    const createdAccount = await accountService.createAccount(demoAccountData);
-
-    res.status(201).json(createdAccount);
+    const userId = req.user.id;
+    const usersData = await accountService.getAccountBuUserId(userId);
+    if (usersData) {
+      res.status(200).json(usersData);
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
 
-async function getAccountBalance(req, res) {
+async function getUserBalance(req, res) {
   try {
-    const accountId = req.params.accountId;
-
-    // checks user owns the account
-
-    const balance = await accountService.getAccountBalance(accountId);
+    const userId = req.user.id;
+    const balance = await accountService.getUserBalance(userId);
 
     if (balance === null) {
       return res.status(404).json({ message: 'Account not found' });
@@ -51,7 +40,7 @@ async function getAccountBalance(req, res) {
 }
 
 module.exports = {
+  getUserAccount,
   getAllUsers,
-  createAccount,
-  getAccountBalance,
+  getUserBalance,
 };

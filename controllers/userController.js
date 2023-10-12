@@ -1,4 +1,6 @@
 const userService = require("../services/userService.js");
+const accountService = require("../services/accountService.js");
+const transactionService = require("../services/transactionService.js");
 const auth = require("../middlewares/auth");
 
 async function registerUser(req, res) {

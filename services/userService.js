@@ -36,22 +36,15 @@ async function loginUser(phone, password) {
   try {
     const user = await userRepository.findUserByPhone(phone);
 
-    if (user && user.password === password) {
-      return user;
-    } else {
-      return null;
+    if (user) {
+      const passwordMatch = await bcrypt.compare(password, user.password);
+
+      if (passwordMatch) {
+        return user;
+      }
     }
-    // const user = await userRepository.findUserByPhone(phone);
 
-    // if (user) {
-    //   const passwordMatch = await bcrypt.compare(password, user.password);
-
-    //   if (passwordMatch) {
-    //     return user;
-    //   }
-    // }
-
-    // return null;
+    return null;
   } catch (error) {
     throw error;
   }

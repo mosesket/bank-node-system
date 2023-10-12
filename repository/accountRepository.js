@@ -9,7 +9,11 @@ async function createAccount(accountData) {
 }
 
 async function getAccountsByUserId(userId) {
-  return Account.find({ owner: userId });
+  try {
+    return await Account.find({ owner: userId });
+  } catch (error) {
+    throw error;
+  }
 }
 
 async function updateAccount(accountId, updatedData) {
@@ -22,9 +26,9 @@ async function updateAccount(accountId, updatedData) {
   }
 }
 
-async function findAccountById(accountNumber) {
+async function findAccountById(owner) {
   try {
-    return await Account.findOne({ accountNumber });
+    return await Account.findOne({ owner });
   } catch (error) {
     throw error;
   }

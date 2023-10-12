@@ -1,6 +1,11 @@
 const Transaction = require('../models/transaction');
 
-async function saveTransaction(transactionData) {
+async function createTransaction(transactionData) {
+  try {
+    return await Transaction.create(transactionData);
+  } catch (error) {
+    throw error;
+  }
 }
 
 async function getTransactionsByUserId(userId) {
@@ -14,6 +19,6 @@ async function getTransactionsByUserId(userId) {
 }
 
 module.exports = {
-  saveTransaction,
+  createTransaction,
   getTransactionsByUserId,
 };

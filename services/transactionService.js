@@ -1,20 +1,25 @@
-const transactionRepository = require('../repository/transactionRepository');
+const transactionRepository = require("../repository/transactionRepository");
 
-async function handleDeposit(accountId, amount) {
+async function handleWithdrawal(accountId, amount) {}
+
+async function handleTransfer(transactionData) {
+  try {
+    return await transactionRepository.createTransaction(transactionData);
+  } catch (error) {
+    throw error;
+  }
 }
 
-async function handleWithdrawal(accountId, amount) {
-}
-
-async function handleTransfer(fromAccountId, toAccountId, amount) {
-}
-
-async function handlePayment(accountId, payee, amount) {
+async function getTransactionsByUserId(userId) {
+  try {
+    return await transactionRepository.getTransactionsByUserId(userId);
+  } catch (error) {
+    throw error;
+  }
 }
 
 module.exports = {
-  handleDeposit,
   handleWithdrawal,
   handleTransfer,
-  handlePayment,
+  getTransactionsByUserId,
 };

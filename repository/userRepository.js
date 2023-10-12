@@ -18,7 +18,7 @@ async function getUserById(userId) {
 
 async function findUserByPhone(phone) {
   try {
-    return User.findOne({ phone }).select("-password");
+    return User.findOne({ phone });
   } catch (error) {
     throw error; 
   }

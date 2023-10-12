@@ -1,5 +1,5 @@
 const userRepository = require("../repository/userRepository");
-const accountService = require('../services/accountService'); 
+const accountService = require("../services/accountService");
 const bcrypt = require("bcrypt");
 
 async function registerUser(userData) {

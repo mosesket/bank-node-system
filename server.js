@@ -18,11 +18,13 @@ app.use(
   })
 );
 
-const accountRoutes = require("./routes/accountRoutes");
 const authRoutes = require("./routes/authRoutes");
+const accountRoutes = require("./routes/accountRoutes");
+const transactionRoutes = require("./routes/transactionRoutes");
 
-app.use("/api/accounts", accountRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/accounts", accountRoutes);
+app.use("/api/transactions", transactionRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the Monolithic Banking Application");

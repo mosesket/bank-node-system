@@ -6,10 +6,19 @@ async function withdraw(req, res) {
 async function transfer(req, res) {
 }
 
+async function transfer(req, res) {
+  try {
+    const transactionData = req.body;
+    const createdTransaction = await transactionService.createTransaction(transactionData);
+    res.status(201).json(createdTransaction);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
 async function userTransactions(req, res) {
   try {
     const userId = req.user.id;
-
     const transactions = await transactionService.getTransactionsByUserId(userId);
 
     res.status(200).json(transactions);

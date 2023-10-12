@@ -6,6 +6,7 @@ const connectToDatabase = async () => {
     console.log("Connected to Mongoose");
   } catch (error) {
     console.log("Cannot connect to Mongoose");
+    console.error(error);
     throw error;
   }
 };

@@ -1,4 +1,4 @@
-const userService = require("../services/accountService.js");
+const userService = require("../services/userService.js");
 const auth = require("../middlewares/auth");
 
 async function registerUser(req, res) {
@@ -21,11 +21,9 @@ async function registerUser(req, res) {
 async function loginUser(req, res) {
   try {
     const { phone, password } = req.body;
-    console.log('req.body');
-    console.log(req.body);
 
     if (!(phone && password)) {
-      res.status(400).send("All input is required");
+      return res.status(400).json({ error: "All input is required" });
     }
 
     const user = await userService.loginUser(phone, password);
@@ -38,6 +36,7 @@ async function loginUser(req, res) {
       res.status(401).json({ error: "Invalid credentials" });
     }
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 }

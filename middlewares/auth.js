@@ -8,7 +8,7 @@ function generateAccessToken(user) {
 
 function authenticateToken(req, res, next) {
   const token = req.headers["authorization"];
-
+  
   if (!token) {
     return res.status(401).json({ error: "Unauthorized" });
   }
@@ -18,6 +18,7 @@ function authenticateToken(req, res, next) {
     req.user = decodedToken;
     next();
   } catch (error) {
+    console.log("JWT Verification Error:", error); 
     return res.status(401).json({ error: "Invalid token" });
   }
 }

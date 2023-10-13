@@ -15,10 +15,10 @@ async function handleTransfer(fromAccountNumber, toAccountNumber, amount) {
     }
 
     fromAccount.balance -= amount;
-    // await accountRepository.updateAccount(fromAccount._id, { balance: fromAccount.balance });
+    await accountRepository.updateAccount(fromAccount._id, { balance: fromAccount.balance });
 
     toAccount.balance += amount;
-    // await accountRepository.updateAccount(toAccount._id, { balance: toAccount.balance });
+    await accountRepository.updateAccount(toAccount._id, { balance: toAccount.balance });
 
     const currentDate = new Date();
 

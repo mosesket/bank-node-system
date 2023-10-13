@@ -15,7 +15,7 @@ const transactionSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  accountType: {
+  type: {
     type: String,
     enum: ["debit", "credit"],
     required: true,

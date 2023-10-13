@@ -2,6 +2,8 @@ const Transaction = require('../models/transaction');
 
 async function createTransaction(transactionData) {
   try {
+    console.log('transactionData');
+    console.log(transactionData);
     return await Transaction.create(transactionData);
   } catch (error) {
     throw error;

@@ -44,7 +44,7 @@ async function updateAccount(accountId, updatedData) {
 }
 
 async function getUserBalance(userId) {
-  const account = await accountRepository.findAccountById(userId);
+  const account = await accountRepository.getAccountsByUserId(userId);
   if (!account) {
     throw new Error("Account not found");
   }

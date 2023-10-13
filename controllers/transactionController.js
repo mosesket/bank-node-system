@@ -8,8 +8,14 @@ async function transfer(req, res) {
 
 async function transfer(req, res) {
   try {
-    const transactionData = req.body;
-    const createdTransaction = await transactionService.createTransaction(transactionData);
+    const { fromAccountId, toAccountId, amount } = req.body; 
+
+    if (!fromAccountId || !toAccountId || amount <= 0) {
+      return res.status(400).json({ error: "Invalid transfer data" });
+    }
+
+    const createdTransaction = await transactionService.handleTransfer(fromAccountId, toAccountId, amount);
+    console.log(createdTransaction);
     res.status(201).json(createdTransaction);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });

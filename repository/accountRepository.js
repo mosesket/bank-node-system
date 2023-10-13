@@ -26,9 +26,9 @@ async function updateAccount(accountId, updatedData) {
   }
 }
 
-async function findAccountById(owner) {
+async function getAccountById(accountId) {
   try {
-    return await Account.findOne({ owner });
+    return await Account.findById(accountId);
   } catch (error) {
     throw error;
   }
@@ -38,5 +38,5 @@ module.exports = {
   getAccountsByUserId,
   createAccount,
   updateAccount,
-  findAccountById,
+  getAccountById,
 };

@@ -1,7 +1,7 @@
 const User = require("../models/user");
 
 async function getUsers() {
-  return User.find().select("-password");
+  return User.find();
 }
 
 async function createUser(userData) {

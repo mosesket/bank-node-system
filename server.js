@@ -18,7 +18,7 @@ app.use(
   })
 );
 
-app.use('/api/v1', routes);
+app.use('/api', routes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the Monolithic Banking Application");

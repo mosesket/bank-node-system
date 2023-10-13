@@ -4,9 +4,9 @@ const express = require("express");
 const { unless } = require("express-unless");
 const { connectToDatabase } = require("./config/database");
 const auth = require("./middlewares/auth.js");
+const routes = require('./routes/index'); 
 
 const port = process.env.PORT || 3000;
-
 const app = express();
 app.use(express.json());
 
@@ -18,13 +18,7 @@ app.use(
   })
 );
 
-const authRoutes = require("./routes/authRoutes");
-const accountRoutes = require("./routes/accountRoutes");
-const transactionRoutes = require("./routes/transactionRoutes");
-
-app.use("/api/auth", authRoutes);
-app.use("/api/accounts", accountRoutes);
-app.use("/api/transactions", transactionRoutes);
+app.use('/api', routes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the Monolithic Banking Application");

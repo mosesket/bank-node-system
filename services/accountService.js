@@ -10,13 +10,13 @@ async function createAccount(accountData) {
   }
 }
 
-async function getAccountBuUserId(userId) {
+async function getAccountByUserId(userId) {
   try {
     const user = await userRepository.getUserById(userId);
-    const accounts = await accountRepository.getAccountsByUserId(userId);
-    const transactions = await transactionRepository.getTransactionsByUserId(userId);
+    const account = await accountRepository.getAccountsByUserId(userId);
+    const transactions = await transactionRepository.getTransactionsByAccountNumber(account.accountNumber);
 
-    return { user, accounts, transactions };
+    return { user, account, transactions };
   } catch (error) {
     throw error;
   }
@@ -51,8 +51,17 @@ async function getUserBalance(userId) {
   return account.balance;
 }
 
+async function getUserAccountNumber(userId) {
+  const account = await accountRepository.getAccountsByUserId(userId);
+  if (!account) {
+    throw new Error("Account not found");
+  }
+  return account.accountNumber;
+}
+
 module.exports = {
-  getAccountBuUserId,
+  getUserAccountNumber,
+  getAccountByUserId,
   getAllUsers,
   createAccount,
   updateAccount,

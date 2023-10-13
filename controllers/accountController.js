@@ -13,7 +13,7 @@ async function getAllUsers(req, res) {
 async function getUserAccount(req, res) {
   try {
     const userId = req.user.id;
-    const usersData = await accountService.getAccountBuUserId(userId);
+    const usersData = await accountService.getAccountByUserId(userId);
     if (usersData) {
       res.status(200).json(usersData);
     } else {

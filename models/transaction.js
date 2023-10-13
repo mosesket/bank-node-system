@@ -11,13 +11,20 @@ const transactionSchema = new mongoose.Schema({
     ref: "Account",
     required: true,
   },
+  sender: {
+    type: Number,
+    required: true,
+  },
+  receiver: {
+    type: Number,
+    required: true,
+  },
   amount: {
     type: Number,
     required: true,
   },
   type: {
     type: String,
-    enum: ["debit", "credit"],
     required: true,
   },
   date: {

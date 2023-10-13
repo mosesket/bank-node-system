@@ -1,12 +1,10 @@
 const transactionRepository = require("../repository/transactionRepository");
 const accountRepository = require("../repository/accountRepository");
 
-async function handleWithdrawal(accountId, amount) {}
-
-async function handleTransfer(fromAccountId, toAccountId, amount) {
+async function handleTransfer(fromAccountNumber, toAccountNumber, amount) {
   try {
-    const fromAccount = await accountRepository.getAccountById(fromAccountId);
-    const toAccount = await accountRepository.getAccountById(toAccountId);
+    const fromAccount = await accountRepository.getAccountById(fromAccountNumber);
+    const toAccount = await accountRepository.getAccountById(toAccountNumber);
 
     if (!fromAccount || !toAccount) {
       throw new Error("Accounts not found");
@@ -16,48 +14,39 @@ async function handleTransfer(fromAccountId, toAccountId, amount) {
       throw new Error("Insufficient balance in the sender's account");
     }
 
-    // Deduct the amount from the sender's account
     fromAccount.balance -= amount;
-    await accountRepository.updateAccount(fromAccount._id, { balance: fromAccount.balance });
+    // await accountRepository.updateAccount(fromAccount._id, { balance: fromAccount.balance });
 
-    // Add the amount to the receiver's account
     toAccount.balance += amount;
-    await accountRepository.updateAccount(toAccount._id, { balance: toAccount.balance });
-    console.log(fromAccount.balance);
-    console.log(toAccount.balance);
+    // await accountRepository.updateAccount(toAccount._id, { balance: toAccount.balance });
 
     const currentDate = new Date();
-    console.log(currentDate);
 
     const transactionData = {
-      fromAccount: fromAccountId,
-      toAccount: toAccountId,
+      fromAccount: fromAccount._id,
+      toAccount: toAccount._id,
+      sender: fromAccountNumber,
+      receiver: toAccountNumber,
       amount,
       type: "Transfer",
       date: currentDate,
     };
-    console.log(transactionData);
 
-    const createdTransaction = await transactionRepository.createTransaction(transactionData);
-    console.log('createdTransaction');
-    console.log(createdTransaction);
-    return createdTransaction;
-    // return await transactionRepository.createTransaction(transactionData);
+    return await transactionRepository.createTransaction(transactionData);
   } catch (error) {
     throw error;
   }
 }
 
-async function getTransactionsByUserId(userId) {
+async function getTransactionsByAccountNumber(accountNumber) {
   try {
-    return await transactionRepository.getTransactionsByUserId(userId);
+    return await transactionRepository.getTransactionsByAccountNumber(accountNumber);
   } catch (error) {
     throw error;
   }
 }
 
 module.exports = {
-  handleWithdrawal,
   handleTransfer,
-  getTransactionsByUserId,
+  getTransactionsByAccountNumber,
 };

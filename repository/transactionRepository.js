@@ -2,17 +2,15 @@ const Transaction = require('../models/transaction');
 
 async function createTransaction(transactionData) {
   try {
-    console.log('transactionData');
-    console.log(transactionData);
     return await Transaction.create(transactionData);
   } catch (error) {
     throw error;
   }
 }
 
-async function getTransactionsByUserId(userId) {
+async function getTransactionsByAccountNumber(accountNumber) {
   try {
-    return Transaction.find({ $or: [{ fromAccount: userId }, { toAccount: userId }] })
+    return await Transaction.find({ $or: [{ sender: accountNumber }, { receiver: accountNumber }] })
       .populate('fromAccount')
       .populate('toAccount');
   } catch (error) {
@@ -22,5 +20,5 @@ async function getTransactionsByUserId(userId) {
 
 module.exports = {
   createTransaction,
-  getTransactionsByUserId,
+  getTransactionsByAccountNumber,
 };

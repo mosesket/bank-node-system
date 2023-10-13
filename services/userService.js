@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 async function registerUser(userData) {
   try {
-    const saltRounds = 10; // Number of salt rounds for hashing
+    const saltRounds = 10; 
     const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
 
     userData.password = hashedPassword;

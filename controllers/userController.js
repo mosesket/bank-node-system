@@ -1,4 +1,5 @@
 const userService = require("../services/userService.js");
+const accountService = require("../services/accountService.js");
 const auth = require("../middlewares/auth");
 
 async function registerUser(req, res) {
@@ -41,7 +42,23 @@ async function loginUser(req, res) {
   }
 }
 
+async function getUserBalance(req, res) {
+  try {
+    const userId = req.user.id;
+    const balance = await accountService.getUserBalance(userId);
+
+    if (balance === null) {
+      return res.status(404).json({ message: 'Account not found' });
+    }
+
+    res.json({ balance });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 module.exports = {
   registerUser,
   loginUser,
+  getUserBalance,
 };

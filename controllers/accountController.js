@@ -24,23 +24,7 @@ async function getUserAccount(req, res) {
   }
 }
 
-async function getUserBalance(req, res) {
-  try {
-    const userId = req.user.id;
-    const balance = await accountService.getUserBalance(userId);
-
-    if (balance === null) {
-      return res.status(404).json({ message: 'Account not found' });
-    }
-
-    res.json({ balance });
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-}
-
 module.exports = {
   getUserAccount,
   getAllUsers,
-  getUserBalance,
 };
